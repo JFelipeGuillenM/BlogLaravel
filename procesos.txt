@@ -1,0 +1,46 @@
+Este proyecto fue creado desde la terminal de Xampp, seguidamente me situé en el directorio donde queria crear mi proyecto (htdocs), ejecuté el comando "laravel new 'nombre del proyecto' --jet" para crear un nuevo proyecto llamado 'loremket' con jetstream, luego seleccioné livewire como libreria.
+
+PARA LA CREACIÓN DE MIGRACIONES Y MODELOS UTILICÉ:
+php artisan make:model Category -m (crea un modelo con su migración).
+php artisan make:controller Admin\HomeController (crea una carpeta Admin y dentro un controlador donde se ejecutará todo lo referente a los permisos de admin)
+
+(Factory ImagesFactory)
+-Configuré el archivo filesystems.php ubicado en la carpeta config
+ en este archivo modifique la linea 16 
+ 'default' => env('FILESYSTEM_DRIVER', 'local'), 
+ modificando la ubicacion de la carpeta local a public donde quiero que se realice la creacion de una carpeta que contendria las imagenes creadas por el ImagesFactory
+ 'default' => env('FILESYSTEM_DRIVER', 'public').
+
+- Ejecuté 'composer require livewire/livewire' framework usado en este proyecto.
+- El navbar es gracias a https://tailwindui.com/preview#component-10058606cac5398d7fa2c73b64089874
+
+(Routes)
+-Para no estar escribiendo la ruta admin estableci un prefijo en RouteServiceProvider 
+
+(AdminLTE)Para tener una seccion administrativa sin la necesidad de crear una desde cero
+-composer require jeroennoten/laravel-adminlte
+-php artisan adminlte:install
+[AdminLTE contiene font awesome iconos gratuitos en linea]
+
+(Laravel collective)Me ayuda a elaborar los forms
+-composer require laravelcollective/html
+
+(CREACION DE COMPONENTE LIVEWIRE PRODUCT-INDEX esto me permite trabajar con livewire y la plantilla de AdminLTE)
+-php artisan make:livewire App\ProductIndex
+
+(CREACION DEL METODO FROM REQUEST)
+-php artisan make:request StoreProductRequest
+
+(CREACION DEL OBSERVER ProductObserver)
+-php artisan make:observer ProductObserver --model=Product
+
+(INSTALACION DEL PAQUETE Laravel permissions)
+- composer require spatie/laravel-permission
+una vez instalado migre el archivo a migrations para que pueda crear las tablas necesarias 
+-php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" 
+luego ejecuté el comando php artisan migrate para subir la migración a la BD
+
+(INSTALACION DE DESCARGAR EN EXCEL PARA LOS PRODUCTOS)
+https://docs.laravel-excel.com/3.1/getting-started/installation.html
+luego:
+php artisan make:export ProductExport --model=Product
